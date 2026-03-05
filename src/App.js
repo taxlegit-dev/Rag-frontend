@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 const API_URL = process.env.REACT_APP_RAG_API;
@@ -18,6 +18,33 @@ function App() {
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
   const [result, setResult] = useState(null);
+  useEffect(() => {
+    if (status !== "uploading") {
+      return undefined;
+    }
+
+    let lastIndex = -1;
+    const progressMessages = [
+      "Refining data...",
+      "Chunking data...",
+      "Embedding data...",
+      "Uploading data...",
+    ];
+    const tick = () => {
+      let nextIndex = Math.floor(Math.random() * progressMessages.length);
+      if (progressMessages.length > 1) {
+        while (nextIndex === lastIndex) {
+          nextIndex = Math.floor(Math.random() * progressMessages.length);
+        }
+      }
+      lastIndex = nextIndex;
+      setMessage(progressMessages[nextIndex]);
+    };
+
+    tick();
+    const timer = setInterval(tick, 2000);
+    return () => clearInterval(timer);
+  }, [status]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -45,6 +72,7 @@ function App() {
 
     try {
       setStatus("uploading");
+      setMessage("Uploading data...");
       const res = await fetch(API_URL, {
         method: "POST",
         body: formData,
@@ -143,10 +171,6 @@ function App() {
           <section className="result">
             <h3>Upload Result</h3>
             <div className="result-grid">
-              <div>
-                <span>Document ID</span>
-                <code>{result.document_id}</code>
-              </div>
               <div>
                 <span>Doc Name</span>
                 <code>{result.doc_name}</code>
