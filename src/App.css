@@ -1,38 +1,239 @@
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+:root {
+  --bg: #0c0f14;
+  --panel: #131825;
+  --accent: #3ddc97;
+  --accent-dark: #1fb178;
+  --text: #f5f7fb;
+  --muted: #a9b2c6;
+  --border: #273045;
+  --danger: #ff6b6b;
+  --warn: #ffb454;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+body {
+  margin: 0;
+  font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+  color: var(--text);
+  background: radial-gradient(1200px 800px at 10% 10%, #1b2a3a 0%, var(--bg) 60%);
   min-height: 100vh;
+}
+
+code {
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+}
+
+.app {
+  min-height: 100vh;
+  padding: 48px 24px 32px;
   display: flex;
   flex-direction: column;
+  gap: 32px;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.hero {
+  text-align: center;
+  max-width: 720px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.brand {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.subtitle {
+  margin-top: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.card {
+  width: min(860px, 100%);
+  background: linear-gradient(160deg, rgba(26, 33, 49, 0.95), rgba(15, 18, 26, 0.95));
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.form {
+  display: grid;
+  gap: 18px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  font-weight: 500;
+}
+
+.field span {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.field input {
+  background: #0f1320;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--text);
+  font-size: 0.98rem;
+}
+
+.field input[type="file"] {
+  padding: 10px;
+  background: #0f1320;
+}
+
+.field small {
+  color: var(--muted);
+}
+
+.domains {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #0f1320;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.chip input {
+  margin: 0;
+}
+
+.chip.active {
+  border-color: var(--accent);
+  color: var(--text);
+  box-shadow: 0 0 0 1px rgba(61, 220, 151, 0.3);
+}
+
+.primary {
+  margin-top: 6px;
+  background: var(--accent);
+  border: none;
+  color: #08110e;
+  font-weight: 700;
+  padding: 12px 18px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(61, 220, 151, 0.25);
+}
+
+.primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.status {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pill {
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: #1a2234;
+  color: var(--muted);
+}
+
+.pill.uploading {
+  background: rgba(255, 180, 84, 0.2);
+  color: var(--warn);
+}
+
+.pill.success {
+  background: rgba(61, 220, 151, 0.2);
+  color: var(--accent);
+}
+
+.pill.error {
+  background: rgba(255, 107, 107, 0.2);
+  color: var(--danger);
+}
+
+.message {
+  margin: 0;
+  color: var(--muted);
+}
+
+.result {
+  margin-top: 24px;
+  border-top: 1px solid var(--border);
+  padding-top: 20px;
+}
+
+.result h3 {
+  margin: 0 0 16px;
+  font-size: 1.1rem;
+}
+
+.result-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.result-grid span {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.result-grid code {
+  display: block;
+  margin-top: 4px;
+  padding: 10px 12px;
+  background: #0f1320;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  word-break: break-all;
+}
+
+.summary p {
+  margin: 6px 0 0;
+  color: var(--text);
+}
+
+.footer {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 720px) {
+  .card {
+    padding: 20px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .brand {
+    font-size: 1.8rem;
   }
 }
