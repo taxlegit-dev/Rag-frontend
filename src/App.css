@@ -80,7 +80,9 @@ code {
   font-size: 0.95rem;
 }
 
-.field input {
+.field input,
+.field select,
+.field textarea {
   background: #0f1320;
   border: 1px solid var(--border);
   border-radius: 12px;

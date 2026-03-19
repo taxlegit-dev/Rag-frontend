@@ -15,6 +15,8 @@ function App() {
     "DASHBOARD",
   ];
   const [domains, setDomains] = useState(["ICFR"]);
+  const [indexArray, setIndexArray] = useState("");
+  const [model, setModel] = useState("gpt-4o-mini");
   const [status, setStatus] = useState("idle");
   const [message, setMessage] = useState("");
   const [result, setResult] = useState(null);
@@ -68,6 +70,12 @@ function App() {
     formData.append("uploaded_by_email", email || "test@example.com");
     if (domains.length) {
       formData.append("domains", domains.join(","));
+    }
+    if (indexArray.trim()) {
+      formData.append("index_array", indexArray.trim());
+    }
+    if (model) {
+      formData.append("model", model);
     }
 
     try {
@@ -153,6 +161,26 @@ function App() {
             <small>Select one or more domains</small>
           </div>
 
+          <label className="field">
+            <span>Index Array (comma-separated)</span>
+            <input
+              type="text"
+              placeholder="tax, gst, invoice"
+              value={indexArray}
+              onChange={(e) => setIndexArray(e.target.value)}
+            />
+            <small>Manual related keywords for this document</small>
+          </label>
+
+          <label className="field">
+            <span>Model</span>
+            <select value={model} onChange={(e) => setModel(e.target.value)}>
+              <option value="gpt-4o-mini">gpt-4o-mini (fast)</option>
+              <option value="gpt-4o-2024-11-20">gpt-4o-2024-11-20 (better)</option>
+            </select>
+            <small>Summarization is always ON for uploads</small>
+          </label>
+
           <button
             className="primary"
             type="submit"
@@ -179,6 +207,22 @@ function App() {
                 <div className="summary">
                   <span>Doc Summary</span>
                   <p>{result.doc_summary}</p>
+                </div>
+              )}
+              {result.index_array && (
+                <div>
+                  <span>Index Array</span>
+                  <code>
+                    {Array.isArray(result.index_array)
+                      ? result.index_array.join(", ")
+                      : String(result.index_array)}
+                  </code>
+                </div>
+              )}
+              {typeof result.summarization !== "undefined" && (
+                <div>
+                  <span>Summarization</span>
+                  <code>{String(result.summarization)}</code>
                 </div>
               )}
             </div>
